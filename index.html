@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Blood Drip Roles</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nosifer&display=swap');
+
+  body {
+    margin: 0;
+    background: #0a0a0a;
+    color: #e33;
+    font-family: 'Nosifer', cursive;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    user-select: none;
+  }
+
+  h1 {
+    font-size: 3.5rem;
+    margin-bottom: 40px;
+    text-shadow: 0 0 10px #c00;
+  }
+
+  .roles {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+
+  .role {
+    cursor: pointer;
+    font-size: 2rem;
+    padding: 15px 30px;
+    border: 3px solid #a00;
+    border-radius: 8px;
+    position: relative;
+    transition: 0.3s;
+  }
+
+  .role:hover {
+    background: #440000;
+    box-shadow: 0 0 15px #a00;
+  }
+
+  .description-box {
+    max-width: 600px;
+    background: #220000;
+    border: 2px solid #a00;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 1.3rem;
+    box-shadow: 0 0 15px #900;
+    min-height: 100px;
+    user-select: text;
+  }
+
+  /* Blood drip animation container */
+  #blood-drip {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+    overflow: visible;
+  }
+
+  .drip {
+    position: absolute;
+    width: 6px;
+    height: 20px;
+    background: linear-gradient(180deg, #b30000 0%, #600000 100%);
+    border-radius: 50% / 100%;
+    filter: drop-shadow(0 0 4px #900);
+    animation: dripfall linear forwards;
+  }
+
+  @keyframes dripfall {
+    0% {
+      top: 0;
+      opacity: 1;
+    }
+    100% {
+      top: 100vh;
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+<body>
+  <h1>Select Your Role</h1>
+  <div class="roles">
+    <div class="role" data-desc="A fierce warrior who slays enemies with unmatched skill and brutal power.">The Slayer</div>
+    <div class="role" data-desc="A hunter who stalks the blood trails, striking fear in the hearts of foes.">Blood Hunter</div>
+    <div class="role" data-desc="Master of dark magic, bending shadows and curses to their will.">Dark Mage</div>
+    <div class="role" data-desc="Silent and deadly, lurking in the darkness to strike unseen.">Night Stalker</div>
+  </div>
+
+  <div class="description-box" id="desc-box">Click a role to see its description.</div>
+
+  <div id="blood-drip"></div>
+
+  <script>
+    // Blood drip generator
+    const dripContainer = document.getElementById('blood-drip');
+
+    function createDrip() {
+      const drip = document.createElement('div');
+      drip.classList.add('drip');
+      drip.style.left = Math.random() * window.innerWidth + 'px';
+      drip.style.animationDuration = (2 + Math.random() * 3) + 's';
+      dripContainer.appendChild(drip);
+
+      drip.addEventListener('animationend', () => {
+        drip.remove();
+      });
+    }
+
+    setInterval(createDrip, 200);
+
+    // Role click to show description
+    const roles = document.querySelectorAll('.role');
+    const descBox = document.getElementById('desc-box');
+
+    roles.forEach(role => {
+      role.addEventListener('click', () => {
+        const desc = role.getAttribute('data-desc');
+        descBox.textContent = desc;
+      });
+    });
+  </script>
+</body>
+</html>
